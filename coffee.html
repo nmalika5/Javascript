@@ -39,7 +39,7 @@
             </tr>
         </table>
 
-        <h4>Total: <span id="revenue"><!-- Revenue Message will show up here --></span></h4>
+        <h4>Total: <span id="revenue">Revenue Message will show up here</span></h4>
     </div>
 </div>
 
@@ -48,7 +48,9 @@
     // Set these variables to their DOM elements
 
     var myImage = document.getElementById("coffee-image");
-    var myRevenueMessage = document.getElementById("message");
+
+    var myRevenueMessage = document.getElementById("revenue");
+
     var drinksOrdered = [];
     var espresso = document.getElementById("espresso");
     var latte = document.getElementById("latte");
@@ -62,13 +64,16 @@
         drinksOrdered.push(drinkType);
         console.log(drinksOrdered);
 
+        var totalPrice = revenue();
+        myRevenueMessage.innerText = totalPrice.toFixed(2);
+
         myImage.setAttribute('src', 'static/coffee_machine.jpg');
         setTimeout(function() {
             myImage.setAttribute('src', 'static/coffee_mug.jpg');
         }, 1000);
         setTimeout(function() {
             myImage.setAttribute('src', 'static/coffee_beans.jpg');
-        }, 1500);
+        }, 2500);
     }
     myImage.addEventListener('click', function() {
         return makeCoffee('brew');
@@ -96,9 +101,15 @@
         "latte": 4.15,
         "hot chocolate": 2.50
     };
-
+        
     function revenue() {
-        for (var i=0; i<drinksOrdered.length; i++)
+        var totalRevenue = 0;
+        
+        for (var i=0; i<drinksOrdered.length; i++) {
+            var currentDrink = drinksOrdered[i];
+            totalRevenue += prices[currentDrink];
+        }
+        return totalRevenue;
     }
 
 </script>
